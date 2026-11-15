@@ -8,5 +8,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_compile_options(-Wall -Wextra -Wpedantic)
 
 add_library(bminor_core
+    src/diagnostic.cpp
     src/token.cpp)
 target_include_directories(bminor_core PUBLIC src)
