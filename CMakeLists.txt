@@ -12,3 +12,8 @@ add_library(bminor_core
     src/lexer.cpp
     src/token.cpp)
 target_include_directories(bminor_core PUBLIC src)
+
+include(CTest)
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+endif()
