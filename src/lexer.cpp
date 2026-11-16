@@ -29,6 +29,8 @@ bool isWhitespace(char c) {
     return c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\f' || c == '\v';
 }
 
+bool isUtf8Continuation(char c) { return (static_cast<unsigned char>(c) & 0xC0) == 0x80; }
+
 class Lexer {
 public:
     Lexer(const SourceFile& source, std::vector<Diagnostic>& diagnostics)
@@ -123,6 +125,9 @@ private:
             break;
         }
 
+        while (!atEnd() && isUtf8Continuation(peek())) {
+            advance();
+        }
         return invalid("unexpected character '" + std::string(lexeme()) + "'");
     }
 
@@ -208,7 +213,7 @@ private:
         if (c == '\n') {
             ++location_.line;
             location_.column = 1;
-        } else {
+        } else if (!isUtf8Continuation(c)) {
             ++location_.column;
         }
         return c;

@@ -108,6 +108,12 @@ TEST_F(LexerTest, TracksLinesColumnsAndOffsets) {
     EXPECT_EQ(tokens[4].location.file, "test.bminor");
 }
 
+TEST_F(LexerTest, CountsUtf8CharactersAsSingleColumns) {
+    const std::vector<Token> tokens = lex("\"é\" x");
+    ASSERT_EQ(tokens.size(), 3u);
+    EXPECT_EQ(tokens[1].location.column, 5);
+}
+
 TEST_F(LexerTest, ReportsInvalidCharacterAndContinues) {
     EXPECT_EQ(stream("x: integer = 5@;\ny: integer = 10;"),
               "IDENT(x) COLON KW(integer) ASSIGN INT(5) INVALID(@) SEMI "
@@ -121,6 +127,11 @@ TEST_F(LexerTest, ReportsInvalidCharacterAndContinues) {
 TEST_F(LexerTest, ReportsSingleAmpersandAndPipe) {
     EXPECT_EQ(stream("a & b | c"), "IDENT(a) INVALID(&) IDENT(b) INVALID(|) IDENT(c) EOF");
     EXPECT_EQ(diagnostics_.size(), 2u);
+}
+
+TEST_F(LexerTest, GroupsMultiByteCharacterIntoOneInvalidToken) {
+    EXPECT_EQ(stream("x € y"), "IDENT(x) INVALID(€) IDENT(y) EOF");
+    EXPECT_EQ(diagnostics_.size(), 1u);
 }
 
 TEST_F(LexerTest, ReportsUnterminatedStringAtEndOfLine) {
