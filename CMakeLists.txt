@@ -11,6 +11,7 @@ add_library(bminor_core
     src/ast.cpp
     src/diagnostic.cpp
     src/lexer.cpp
+    src/parser.cpp
     src/token.cpp)
 target_include_directories(bminor_core PUBLIC src)
 
