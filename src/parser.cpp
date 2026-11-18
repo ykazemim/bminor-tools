@@ -420,7 +420,16 @@ private:
     }
 
     void synchronizeDeclaration() {
-        while (!atEnd() && !atDeclarationStart()) {
+        int depth = 0;
+        while (!atEnd()) {
+            if (depth == 0 && atDeclarationStart()) {
+                return;
+            }
+            if (check(TokenKind::LeftBrace)) {
+                ++depth;
+            } else if (check(TokenKind::RightBrace) && depth > 0) {
+                --depth;
+            }
             advance();
         }
     }

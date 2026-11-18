@@ -244,6 +244,17 @@ TEST_F(ParserTest, ReportsEveryBrokenStatementInABlock) {
     EXPECT_EQ(program.declarations[1]->name, "after");
 }
 
+TEST_F(ParserTest, SkipsBrokenDeclarationIncludingItsBody) {
+    Program program = parseSource("f: function integer (x integer) = {\n"
+                                  "  local: integer = 1;\n"
+                                  "  return local;\n"
+                                  "}\n"
+                                  "g: integer;\n");
+    EXPECT_EQ(messages(), Messages{"1:24 expected ':' after parameter name, got 'integer'"});
+    ASSERT_EQ(program.declarations.size(), 1u);
+    EXPECT_EQ(program.declarations[0]->name, "g");
+}
+
 TEST_F(ParserTest, RecoversFromStrayTopLevelTokens) {
     Program program = parseSource("} ) ; if (x) return; ok: boolean;");
     EXPECT_EQ(messages(), Messages{"1:1 expected declaration, got '}'"});
