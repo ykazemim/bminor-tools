@@ -11,6 +11,7 @@ add_library(bminor_core
     src/ast.cpp
     src/ast_printer.cpp
     src/diagnostic.cpp
+    src/highlighter.cpp
     src/lexer.cpp
     src/parser.cpp
     src/token.cpp)
