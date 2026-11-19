@@ -18,6 +18,9 @@ add_library(bminor_core
     src/token.cpp)
 target_include_directories(bminor_core PUBLIC src)
 
+add_executable(bminor src/main.cpp)
+target_link_libraries(bminor PRIVATE bminor_core)
+
 include(CTest)
 if(BUILD_TESTING)
     add_subdirectory(tests)
