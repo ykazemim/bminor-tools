@@ -14,6 +14,7 @@ add_library(bminor_core
     src/highlighter.cpp
     src/lexer.cpp
     src/parser.cpp
+    src/render.cpp
     src/token.cpp)
 target_include_directories(bminor_core PUBLIC src)
 
