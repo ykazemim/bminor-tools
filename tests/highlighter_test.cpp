@@ -97,6 +97,12 @@ TEST_F(HighlighterTest, AnsiOutputReproducesSourceExactly) {
     EXPECT_EQ(stripAnsi(ansi), source);
 }
 
+TEST_F(HighlighterTest, AnsiColorsAreResetBeforeEveryNewline) {
+    const std::string source = "/* a\nb */";
+    const std::string ansi = renderAnsi(source, spans(source));
+    EXPECT_EQ(ansi, "\x1b[3;90m/* a\x1b[0m\n\x1b[3;90mb */\x1b[0m");
+}
+
 TEST_F(HighlighterTest, AnsiUsesBoldBlueForKeywords) {
     const std::string source = "f: function void ();";
     EXPECT_NE(renderAnsi(source, spans(source)).find("\x1b[1;34mfunction\x1b[0m"),

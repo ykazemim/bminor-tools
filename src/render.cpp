@@ -84,11 +84,23 @@ void appendColored(std::string& out, std::string_view text, std::string_view cod
         out += text;
         return;
     }
-    out += "\x1b[";
-    out += code;
-    out += 'm';
-    out += text;
-    out += ansiReset;
+    std::size_t start = 0;
+    while (true) {
+        const std::size_t newline = text.find('\n', start);
+        const std::string_view line = text.substr(start, newline - start);
+        if (!line.empty()) {
+            out += "\x1b[";
+            out += code;
+            out += 'm';
+            out += line;
+            out += ansiReset;
+        }
+        if (newline == std::string_view::npos) {
+            return;
+        }
+        out += '\n';
+        start = newline + 1;
+    }
 }
 
 void appendEscaped(std::string& out, std::string_view text) {
