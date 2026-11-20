@@ -1,0 +1,13 @@
+x: integer = ;
+y: integer = 42;
+
+check: function integer ( y: integer ) = {
+    if (y > 0 {
+        return y;
+    }
+    1 = y;
+    print "missing semicolon"
+    return 0;
+}
+
+z: integer = 7;

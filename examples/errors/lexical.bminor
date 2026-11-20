@@ -1,0 +1,6 @@
+x: integer = 5@;
+y: integer = 10;
+name: string = "unterminated
+letter: char = 'ab';
+mask: boolean = true & false;
+/* this comment never ends

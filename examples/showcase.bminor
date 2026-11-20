@@ -1,0 +1,45 @@
+/* A tour of the B-Minor syntax:
+   declarations, arrays, control flow, and every operator. */
+
+limit: integer = 10;
+greeting: string = "hello, world\n";
+initial: char = 'B';
+verbose: boolean = false;
+primes: array [5] integer = {2, 3, 5, 7, 11};
+grid: array [2] array [3] integer = {{1, 2, 3}, {4, 5, 6}};
+
+puts: function void ( s: string );
+
+sum: function integer ( values: array [] integer, count: integer ) = {
+    total: integer = 0;
+    i: integer;
+    for (i = 0; i < count; i++) {
+        total = total + values[i];
+    }
+    return total;
+}
+
+power: function integer ( base: integer, exponent: integer ) = {
+    return base ^ exponent;
+}
+
+classify: function string ( n: integer ) = {
+    if (n % 2 == 0 && n != 0) {
+        return "even";
+    } else if (!(n > 0) || n >= 100) {
+        return "out of range";
+    } else {
+        return "odd";
+    }
+}
+
+main: function integer () = {
+    puts(greeting);
+    count: integer = limit;
+    while (count > 0) {
+        count--;  // counts down to zero
+    }
+    print "sum: ", sum(primes, 5), ", 2^8 = ", power(2, 8), '\n';
+    print classify(-limit), " ", grid[1][2], " ", initial, " ", verbose;
+    return 0;
+}
