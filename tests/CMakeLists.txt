@@ -5,6 +5,7 @@ FetchContent_Declare(googletest
 FetchContent_MakeAvailable(googletest)
 
 add_executable(bminor_tests
+    highlighter_test.cpp
     lexer_test.cpp
     parser_test.cpp)
 target_link_libraries(bminor_tests PRIVATE bminor_core GTest::gtest_main)
